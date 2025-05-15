@@ -10,6 +10,7 @@ vault.db
 __pycache__/
 *.py[cod]
 *.pyo
+*.pyd
 
 # ⚙️ Ignore environment-specific folders
 venv/
@@ -24,7 +25,25 @@ build/
 # 💼 Ignore system files
 .DS_Store
 Thumbs.db
+.vscode/
+*.log
 
 # 💬 Logs & temp files (optional)
 *.log
 *.tmp
+
+# === Flask Settings ===
+instance/
+*.db
+*.sqlite3
+
+# === Static Assets to Ignore ===
+# Allow everything by default...
+!/static/
+# ...but ignore raw/source asset files
+static/**/*.psd
+static/**/*.ai
+static/**/*.xcf
+static/**/*.zip
+static/**/*.rar
+static/**/*.7z
