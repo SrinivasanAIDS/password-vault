@@ -1,0 +1,11 @@
+# Ignore encryption key and database
+secret.key
+vault.db
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+
+# Ignore virtual environment folder (if any)
+venv/
+env/

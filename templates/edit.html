@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head><title>Edit Entry</title></head>
+<body>
+    <h2>Edit Password Entry</h2>
+    <form method="POST">
+        Website: <input type="text" name="website" value="{{ entry[1] }}" required><br><br>
+        Login: <input type="text" name="login" value="{{ entry[2] }}" required><br><br>
+        Password: <input type="text" name="password" required><br><br>
+        <button type="submit">Update</button>
+        <a href="/dashboard">Cancel</a>
+    </form>
+</body>
+</html>

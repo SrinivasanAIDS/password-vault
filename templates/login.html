@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Login - Password Vault</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:ital,wght@1,400&display=swap" rel="stylesheet">
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: url('/static/background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    #login-wrapper {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(3px);
+    }
+
+    #login-container {
+      background-color: rgba(0, 0, 0, 0.75);
+      color: #f1f1f1;
+      padding: 2.2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .typewriter-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .typewriter {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 3px solid #0ff;
+      width: 0;
+      animation: typing-title 1.6s steps(6, end) forwards, blinkCursor 0.7s step-end infinite;
+      background: linear-gradient(45deg, #00ffe7, #0077ff, #8e2de2);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      text-shadow: 0 0 6px rgba(0, 255, 231, 0.4);
+    }
+
+    @keyframes typing-title {
+      from { width: 0 }
+      to { width: 5ch }
+    }
+
+    @keyframes blinkCursor {
+      50% { border-color: transparent }
+    }
+
+    .subtitle {
+      font-style: italic;
+      text-align: center;
+      font-size: 1rem;
+      background: linear-gradient(45deg, #00ffe7, #0077ff, #8e2de2);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      opacity: 0.9;
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      color: #f1f1f1;
+      font-style: italic;
+    }
+
+    input.form-control {
+      background-color: #111;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 15px;
+      font-weight: 500;
+      outline: none;
+      box-shadow:
+        0 0 0 2px rgba(0, 255, 255, 0.3),
+        0 0 12px rgba(0, 255, 255, 0.6),
+        inset 0 0 0 rgba(0, 255, 255, 0);
+      transition: box-shadow 0.3s ease;
+    }
+
+    input.form-control:focus {
+      box-shadow:
+        0 0 0 2px rgba(0, 255, 255, 0.5),
+        0 0 20px rgba(0, 255, 255, 0.9),
+        inset 0 0 0 rgba(0, 255, 255, 0);
+    }
+
+    input::placeholder {
+      color: #ccc;
+    }
+
+    button.btn-success {
+      font-style: italic;
+      font-weight: 600;
+    }
+
+    a {
+      color: #aad4ff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<div id="login-wrapper">
+  <div id="login-container">
+    <div class="typewriter-wrapper">
+      <h2 class="typewriter">LOGIN</h2>
+    </div>
+    <p class="subtitle">Access your vault securely</p>
+
+    <form method="POST">
+      <div class="mb-3">
+        <label for="username">Username</label>
+        <input type="text" name="username" class="form-control" placeholder="Enter your username" required>
+      </div>
+      <div class="mb-3">
+        <label for="password">Password</label>
+        <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
+      </div>
+      <button type="submit" class="btn btn-success w-100">Login</button>
+    </form>
+
+    <div class="mt-3 text-center">
+      <p class="mb-0">Don't have an account? <a href="/register">Register here</a></p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

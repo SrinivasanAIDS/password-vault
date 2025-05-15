@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Dashboard - Password Vault</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:ital,wght@1,400&display=swap" rel="stylesheet">
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: url('/static/background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    #main-container {
+      min-height: 100vh;
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+    }
+
+    h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.2rem;
+      text-align: center;
+      background: linear-gradient(45deg, #00ffe7, #0077ff, #8e2de2);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      text-shadow: 0 0 6px rgba(0, 255, 231, 0.4);
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      color: #f1f1f1;
+    }
+
+    .animated-input {
+      background-color: #2c2c2c;
+      color: #fff;
+      border: 2px solid;
+      border-image-slice: 1;
+      border-width: 2px;
+      border-image-source: linear-gradient(90deg, #00ffe7, #0077ff, #8e2de2);
+      transition: box-shadow 0.4s ease-in-out;
+      animation: glow 2s infinite alternate;
+    }
+
+    input::placeholder {
+      color: #ccc !important;
+    }
+
+    @keyframes glow {
+      from {
+        box-shadow: 0 0 5px rgba(0, 255, 255, 0.4);
+      }
+      to {
+        box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+      }
+    }
+
+    a {
+      color: #aad4ff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    .dark-mode input,
+    .dark-mode textarea,
+    .dark-mode select {
+      background-color: #2b2b2b !important;
+      color: #f1f1f1 !important;
+      border: 1px solid #444 !important;
+    }
+
+    .dark-mode label {
+      color: #f1f1f1 !important;
+    }
+
+    .dark-mode .table,
+    .dark-mode .table th,
+    .dark-mode .table td {
+      background-color: #1f1f1f !important;
+      color: #f1f1f1 !important;
+      border: 1px solid #444 !important;
+      box-shadow: none !important;
+    }
+
+    .dark-mode .table-striped > tbody > tr:nth-of-type(odd) {
+      background-color: #252525 !important;
+    }
+
+    .dark-mode .table-hover tbody tr:hover {
+      background-color: #333 !important;
+    }
+
+    .dark-mode .btn-outline-light {
+      border-color: #ccc !important;
+      color: #f1f1f1 !important;
+    }
+
+    .dark-mode .btn-outline-light:hover {
+      background-color: #444 !important;
+      color: white !important;
+    }
+  </style>
+</head>
+<body>
+  <div id="main-container" class="container-fluid text-light dark-mode">
+    <h2>Welcome to Your Password Vault</h2>
+
+    <form class="d-flex mb-3" method="GET" action="/dashboard">
+      <input type="text" class="form-control me-2 animated-input" name="search" placeholder="Search by website or email" style="color: #fff;" value="{{ request.args.get('search', '') }}">
+      <button class="btn btn-primary me-2" type="submit">Search</button>
+      <a href="/dashboard" class="btn btn-secondary">Clear</a>
+    </form>
+
+    <form method="POST" class="mb-4">
+      <div class="mb-2">
+        <label>Website</label>
+        <input type="text" name="website" class="form-control animated-input" required>
+      </div>
+      <div class="mb-2">
+        <label>Login/Email</label>
+        <input type="text" name="login" class="form-control animated-input" required>
+      </div>
+      <div class="mb-2">
+        <label>Password</label>
+        <input type="text" name="password" class="form-control animated-input" required>
+      </div>
+      <button type="submit" class="btn btn-success">Save Password</button>
+    </form>
+
+    <hr>
+
+    <h3>Saved Passwords</h3>
+    {% if entries %}
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Website</th>
+          <th>Login</th>
+          <th>Password</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for entry in entries %}
+        <tr>
+          <td>{{ entry[1] }}</td>
+          <td>{{ entry[2] }}</td>
+          <td>
+            <span id="pwd{{ entry[0] }}" style="display: none;">{{ entry[3] }}</span>
+            <span id="mask{{ entry[0] }}">••••••••</span>
+            <button class="btn btn-sm btn-outline-primary" onclick="togglePassword('{{ entry[0] }}')">Show</button>
+            <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('pwd{{ entry[0] }}', 'msg{{ entry[0] }}')">Copy</button>
+            <span id="msg{{ entry[0] }}" class="text-success ms-2" style="display: none;">Copied!</span>
+          </td>
+          <td>
+            <form method="POST" action="/delete/{{ entry[0] }}" style="display:inline;" onsubmit="return confirm('Are you sure?');">
+              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+            </form>
+            <a href="/edit/{{ entry[0] }}" class="btn btn-sm btn-warning">Edit</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      {% if request.args.get('search') %}
+        <p class="text-muted">No results found for "<strong>{{ request.args.get('search') }}</strong>"</p>
+      {% else %}
+        <p class="text-muted">No passwords saved yet.</p>
+      {% endif %}
+    {% endif %}
+
+    <br>
+    <a href="/logout">Logout</a>
+  </div>
+
+  <script>
+    function copyToClipboard(elementId, messageId) {
+      const text = document.getElementById(elementId).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const msg = document.getElementById(messageId);
+        msg.style.display = 'inline';
+        setTimeout(() => msg.style.display = 'none', 2000);
+      }, () => alert("Failed to copy password."));
+    }
+
+    function togglePassword(id) {
+      const pwdSpan = document.getElementById('pwd' + id);
+      const maskSpan = document.getElementById('mask' + id);
+      const button = event.target;
+      if (pwdSpan.style.display === 'none') {
+        pwdSpan.style.display = 'inline';
+        maskSpan.style.display = 'none';
+        button.textContent = 'Hide';
+      } else {
+        pwdSpan.style.display = 'none';
+        maskSpan.style.display = 'inline';
+        button.textContent = 'Show';
+      }
+    }
+  </script>
+</body>
+</html>
