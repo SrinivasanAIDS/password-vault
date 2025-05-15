@@ -1,11 +1,30 @@
-# Ignore encryption key and database
+# ===============================
+# 🔒 Password Vault Git Ignore
+# ===============================
+
+# 🛡️ Ignore sensitive data
 secret.key
 vault.db
 
-# Ignore Python cache files
+# 🐍 Ignore Python cache and bytecode
 __pycache__/
-*.pyc
+*.py[cod]
+*.pyo
 
-# Ignore virtual environment folder (if any)
+# ⚙️ Ignore environment-specific folders
 venv/
 env/
+
+# 📦 Ignore package/environment files
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# 💼 Ignore system files
+.DS_Store
+Thumbs.db
+
+# 💬 Logs & temp files (optional)
+*.log
+*.tmp
